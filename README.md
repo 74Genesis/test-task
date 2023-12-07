@@ -4,4 +4,4 @@
 
 ## Demonstration
 
-![Demonstration](./demo.webm)
+![Demonstration](demo.webm)
