@@ -1,6 +1,33 @@
-`php artisan serve`
+## Install
 
-`npm run dev`
+1. Clone
+
+```
+$ git clone https://github.com/74Genesis/test-task.git test-task-igorrazumov
+```
+
+2. Install dependencies:
+
+```
+$ npm i
+$ composer install
+```
+
+3. Run migrations and seed (sqlite)
+
+```
+$ php artisan migrate
+$ php artisan db:seed
+```
+
+4. Run project
+
+```
+$ php artisan serve
+$ npm run dev
+```
+
+Go to: `http://127.0.0.1:8000`
 
 ## Demonstration
 
