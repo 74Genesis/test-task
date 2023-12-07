@@ -1,65 +1,27 @@
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import WhiteBlock from "../base/WhiteBlock.vue";
+import useUsersTable from "../../composables/usersTable";
 
-interface User {
-    name: string;
-    price: string;
-    bedrooms: string;
-    bathrooms: string;
-    storeys: string;
-    garages: string;
-}
+const { users, loading, errorMessage } = useUsersTable();
 
 const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
 });
 
-const tableData: User[] = [
-    {
-        name: "User name",
-        price: "823423",
-        bedrooms: "1",
-        bathrooms: "3",
-        storeys: "5",
-        garages: "4",
-    },
-    {
-        name: "User name",
-        price: "823423",
-        bedrooms: "1",
-        bathrooms: "3",
-        storeys: "5",
-        garages: "4",
-    },
-    {
-        name: "User name",
-        price: "823423",
-        bedrooms: "1",
-        bathrooms: "3",
-        storeys: "5",
-        garages: "4",
-    },
-    {
-        name: "User name",
-        price: "823423",
-        bedrooms: "1",
-        bathrooms: "3",
-        storeys: "5",
-        garages: "4",
-    },
-];
-
-const isEmpty = ref(() => true);
+const isEmpty = computed(() => !users.value?.length);
 </script>
 
 <template>
-    <WhiteBlock v-loading="false">
-        <div class="flex justify-center w-full" v-if="isEmpty">
+    <WhiteBlock v-loading="loading">
+        <div v-if="errorMessage">
+            {{ errorMessage }}
+        </div>
+        <div class="flex justify-center w-full" v-else-if="isEmpty">
             <el-empty description="No entries found 😭" />
         </div>
-        <el-table :data="tableData" style="width: 100%" v-else>
+        <el-table :data="users" style="width: 100%" v-else>
             <el-table-column label="Name" prop="name"></el-table-column>
             <el-table-column label="Price" prop="price">
                 <template #default="scope">

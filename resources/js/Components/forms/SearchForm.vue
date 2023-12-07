@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, watch, onMounted } from "vue";
 import type { FormProps } from "element-plus";
 import WhiteBlock from "../base/WhiteBlock.vue";
+import useUsersTable from "../../composables/usersTable";
+
+const { fetchUsers } = useUsersTable();
 
 const fields = reactive({
     name: "",
@@ -12,6 +15,31 @@ const fields = reactive({
     priceFrom: null,
     priceTo: null,
 });
+
+watch(fields, async (newVal, oldVal) => {
+    fetchDebounce();
+});
+
+onMounted(() => {
+    fetch();
+});
+
+const fetchDebounce = debounce(() => fetch());
+
+async function fetch() {
+    console.log("fetch");
+    await fetchUsers(fields);
+}
+
+function debounce(func, timeout = 500) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, timeout);
+    };
+}
 </script>
 
 <template>
